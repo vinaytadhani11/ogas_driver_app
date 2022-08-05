@@ -52,7 +52,7 @@ class _DrawerpageState extends State<Drawerpage> {
         child: Drawer(
           elevation: 2,
           // width: MediaQuery.of(context).size.width/1.28,
-          width: 280,
+          // width: 280,
           child: Column(
             children: [
               Padding(
@@ -76,15 +76,13 @@ class _DrawerpageState extends State<Drawerpage> {
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       )),
-                  subtitle: Text("+91 $phone",
-                      style: TextStyle(fontSize: 15, height: 1.8)),
+                  subtitle: Text("+91 $phone", style: TextStyle(fontSize: 15, height: 1.8)),
                 ),
               ),
               const Divider(
                 color: ColorConstnt.grey,
               ),
-              CustomDrawerList(
-                  "asset/icons/drawerList_icon/profile.png", AppLocalizations.of(context)!.profile, () {
+              CustomDrawerList("asset/icons/drawerList_icon/profile.png", AppLocalizations.of(context)!.profile, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -92,8 +90,7 @@ class _DrawerpageState extends State<Drawerpage> {
                   ),
                 );
               }),
-              CustomDrawerList(
-                  "asset/icons/drawerList_icon/cart.png", AppLocalizations.of(context)!.orderHistory, () {
+              CustomDrawerList("asset/icons/drawerList_icon/cart.png", AppLocalizations.of(context)!.orderHistory, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -101,8 +98,7 @@ class _DrawerpageState extends State<Drawerpage> {
                   ),
                 );
               }),
-              CustomDrawerList(
-                  "asset/icons/drawerList_icon/language.png", AppLocalizations.of(context)!.language, () {
+              CustomDrawerList("asset/icons/drawerList_icon/language.png", AppLocalizations.of(context)!.language, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -110,9 +106,7 @@ class _DrawerpageState extends State<Drawerpage> {
                   ),
                 );
               }),
-              CustomDrawerList(
-                  "asset/icons/drawerList_icon/sign_out.png",AppLocalizations.of(context)!.signOut, 
-                  () async {
+              CustomDrawerList("asset/icons/drawerList_icon/sign_out.png", AppLocalizations.of(context)!.signOut, () async {
                 showLoadingDialog(context: context);
                 SharedPreferences pref = await SharedPreferences.getInstance();
                 pref.setString(PrefString.loggedIn, 'loggedOut');

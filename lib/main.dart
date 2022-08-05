@@ -16,18 +16,17 @@ import 'package:flutter/services.dart';
 import 'widgets/language_constant.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
   ]);
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-
-  
   MyApp({Key? key}) : super(key: key);
 
   @override
@@ -39,7 +38,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   Locale? _locale;
 
   setLocale(Locale locale) {
@@ -53,6 +51,7 @@ class _MyAppState extends State<MyApp> {
     getLocale().then((locale) => {setLocale(locale)});
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
     return Sizer(

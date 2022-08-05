@@ -33,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   LoginRequestModel loginReq = LoginRequestModel();
   LoginResponseModel loginRes = LoginResponseModel();
   String code = '';
-  String countryCodes = '';
+  String countryCodes = '+91';
 
   signin({
     @required BuildContext? context,
@@ -90,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: SingleChildScrollView(
           // physics: NeverScrollableScrollPhysics(),
           child: Container(
-            height: MediaQuery.of(context).size.height + 100,
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
               // color: Color(0xffF58823),
@@ -125,13 +125,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(
-                          widget.sign == true
-                              ? "Create Your\nAccount"
-                              : "Hello\nSign in!",
-                          style: const TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "DMSans"),
+                          widget.sign == true ? "Create Your\nAccount" : "Hello\nSign in!",
+                          style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold, fontFamily: "DMSans"),
                         ),
                       ),
                     ],
@@ -143,9 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40)),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40)),
                     ),
                     child: Column(
                       children: [
@@ -155,9 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           width: 120,
                           decoration: const BoxDecoration(
                             // color:Color(0xffF58823),
-                            image: DecorationImage(
-                                image: AssetImage("asset/icons/create.png"),
-                                fit: BoxFit.cover),
+                            image: DecorationImage(image: AssetImage("asset/icons/create.png"), fit: BoxFit.cover),
                           ),
                         ),
                         CustomTextField(
@@ -173,8 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onChanged: (CountryCode countryCode) {
                                 countryCodes = countryCode.toString();
                                 setState(() {});
-                                print("New Country selected: " +
-                                    countryCode.toString());
+                                print("New Country selected: " + countryCode.toString());
                               },
                             ),
                           ),
@@ -182,7 +172,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: '+968 955 556 98',
                           mName: "Phone number",
                           validator: validateMobile,
-                          
                           keyboardType: TextInputType.number,
                           maxLength: 10,
                         ),
@@ -198,28 +187,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           onPressed: () async {
                             showLoadingDialog(context: context);
                             if (_formKey.currentState!.validate()) {
-                              SharedPreferences pref =
-                                  await SharedPreferences.getInstance();
-                              pref.setString(PrefString.phoneNumber,
-                                  _phoneController.text);
+                              SharedPreferences pref = await SharedPreferences.getInstance();
+                              pref.setString(PrefString.phoneNumber, _phoneController.text);
                               if (widget.sign == true) {
                                 login = false;
                                 setState(() {});
 
-                                signin(
-                                    context: context,
-                                    phone:
-                                        countryCodes + _phoneController.text);
+                                signin(context: context, phone: countryCodes + _phoneController.text);
                               } else {
                                 login = true;
                                 setState(() {});
                                 loginReq.mobile = _phoneController.text;
                                 FocusScope.of(context).unfocus();
                                 await loginViewModel.login(loginReq);
-                                if (loginViewModel.loginApiResponse.status ==
-                                    Status.COMPLETE) {
-                                  LoginResponseModel response =
-                                      loginViewModel.loginApiResponse.data;
+                                if (loginViewModel.loginApiResponse.status == Status.COMPLETE) {
+                                  LoginResponseModel response = loginViewModel.loginApiResponse.data;
                                   print('LOGIN status ${response.success}');
 
                                   if (response.success == false) {
@@ -229,9 +211,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       snackPosition: SnackPosition.TOP,
                                       messageText: Text(
                                         response.message.toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                       ),
                                     ));
                                     hideLoadingDialog(context: context);
@@ -239,36 +219,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   }
                                   if (response.success == true) {
                                     print('valid');
-                                    SharedPreferences pref =
-                                        await SharedPreferences.getInstance();
-                                    pref.setString(
-                                        PrefString.loggedIn, 'loggedIn');
+                                    SharedPreferences pref = await SharedPreferences.getInstance();
+                                    pref.setString(PrefString.loggedIn, 'loggedIn');
                                     pref.setString(PrefString.address, '');
-                                    pref.setString(PrefString.token,
-                                        response.data!.token.toString());
-                                    pref.setString(PrefString.id,
-                                        response.data!.user!.id!.toString());
-                                    pref.setString(
-                                        PrefString.vehicleNumber,
-                                        response.data!.user!.vehicleNo
-                                            .toString());
-                                    pref.setString(PrefString.name,
-                                        response.data!.user!.name.toString());
-                                    pref.setString(PrefString.phoneNumber,
-                                        response.data!.user!.mobile.toString());
-                                    pref.setString(PrefString.email,
-                                        response.data!.user!.email.toString());
-                                    pref.setString(
-                                        PrefString.licenseNumber,
-                                        response.data!.user!.licenceNo
-                                            .toString());
-                                    pref.setString(
-                                        PrefString.countryCode, '+91');
+                                    pref.setString(PrefString.token, response.data!.token.toString());
+                                    pref.setString(PrefString.id, response.data!.user!.id!.toString());
+                                    pref.setString(PrefString.vehicleNumber, response.data!.user!.vehicleNo.toString());
+                                    pref.setString(PrefString.name, response.data!.user!.name.toString());
+                                    pref.setString(PrefString.phoneNumber, response.data!.user!.mobile.toString());
+                                    pref.setString(PrefString.email, response.data!.user!.email.toString());
+                                    pref.setString(PrefString.licenseNumber, response.data!.user!.licenceNo.toString());
+                                    pref.setString(PrefString.countryCode, countryCodes);
                                     pref.setString(PrefString.devicetype, ' ');
                                     pref.setString(PrefString.deviceToken, ' ');
-                                    signin(
-                                        context: context,
-                                        phone: '+91' + _phoneController.text);
+                                    signin(context: context, phone: countryCodes + _phoneController.text);
                                   } else {
                                     print('invalid');
                                   }
@@ -279,9 +243,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     snackPosition: SnackPosition.TOP,
                                     messageText: Text(
                                       'Server Error',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
+                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                     ),
                                   ));
                                   hideLoadingDialog(context: context);
@@ -298,15 +260,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                         ),
-                        Spacer(),
+                        SizedBox(height: 30),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              widget.sign == true
-                                  ? "Already have account?"
-                                  : "Don't have account",
+                              widget.sign == true ? "Already have account?" : "Don't have account",
                               style: const TextStyle(
                                 color: ColorConstnt.grey,
                                 fontSize: 15,
@@ -334,9 +294,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                       ],
                     ),
                   ),

@@ -10,9 +10,7 @@ class OrderListCard extends StatelessWidget {
   final String? omr;
   final String? address;
   final void Function()? onTap;
-  const OrderListCard(
-      {Key? key, this.orderNumber, this.omr, this.address, this.onTap})
-      : super(key: key);
+  const OrderListCard({Key? key, this.orderNumber, this.omr, this.address, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,7 @@ class OrderListCard extends StatelessWidget {
         right: 15,
       ),
       height: MediaQuery.of(context).size.height / 8.0,
-      width: 350,
+      width: MediaQuery.of(context).size.width - 40,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,28 +38,27 @@ class OrderListCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.omr + " : ${omr.toString()}",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Color(
-                        0xFFCECECE,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!.address +
-                        " : ${address.toString()}",
-                    style: TextStyle(
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.omr + " : ${omr.toString()}",
+                      style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFFCECECE)),
-                  ),
-                ],
+                        color: Color(
+                          0xFFCECECE,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.address + " : ${address.toString()}",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFCECECE)),
+                    ),
+                  ],
+                ),
               ),
               GestureDetector(
                 onTap: onTap,
@@ -76,10 +73,7 @@ class OrderListCard extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     AppLocalizations.of(context)!.orderdetails.toLowerCase(),
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
               ),

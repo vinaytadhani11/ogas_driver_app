@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:ogas_driver_app/Model/apiModel/responseModel/all_order_response_model.dart';
 import 'package:ogas_driver_app/homescreen/order/complete_order.dart';
 import 'package:ogas_driver_app/homescreen/order/map_screen.dart';
 import 'package:ogas_driver_app/widgets/background.dart';
@@ -8,7 +10,9 @@ import 'package:ogas_driver_app/widgets/grey_shadow_border_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderdetailsPage extends StatefulWidget {
-  const OrderdetailsPage({Key? key}) : super(key: key);
+  final List<OrderHistory>? orderHistory;
+  final Datum? data;
+  const OrderdetailsPage({Key? key, this.orderHistory, this.data}) : super(key: key);
 
   @override
   State<OrderdetailsPage> createState() => _OrdedDetailsPageState();
@@ -21,7 +25,7 @@ class _OrdedDetailsPageState extends State<OrderdetailsPage> {
       body: Background(
         imagename: "asset/icons/drawerList_icon/leftarrow2x.png",
         onTap: () {
-          Navigator.pop(context);
+          Get.back();
         },
         text: AppLocalizations.of(context)!.orderdetails,
         child: Container(
@@ -30,19 +34,20 @@ class _OrdedDetailsPageState extends State<OrderdetailsPage> {
             children: [
               GreyborderCont(
                 padding: const EdgeInsets.all(15),
-                // height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
+                    GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 2.5),
+                      itemCount: widget.orderHistory?.length,
+                      shrinkWrap: true,
+                      itemBuilder: (c, i) {
+                        return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Refill Small (22 kg)",
+                              "${widget.orderHistory?[i].type == '1' ? 'refill' : 'new'} Small (22 kg)",
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -50,42 +55,12 @@ class _OrdedDetailsPageState extends State<OrderdetailsPage> {
                               ),
                             ),
                             Text(
-                              AppLocalizations.of(context)!.qty + " : 2",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFCECECE),
-                                  height: 1.5),
+                              AppLocalizations.of(context)!.qty + " : ${widget.orderHistory?[i].quantity}",
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFCECECE), height: 1.5),
                             ),
                           ],
-                        ),
-                        const VerticalDivider(
-                          color: Color.fromARGB(255, 205, 20, 20),
-                          thickness: 2,
-                          width: 5,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Refill Large (44 kg)",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!.qty + " : 1",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFCECECE),
-                                  height: 1.5),
-                            ),
-                          ],
-                        ),
-                      ],
+                        );
+                      },
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 230,
@@ -104,13 +79,9 @@ class _OrdedDetailsPageState extends State<OrderdetailsPage> {
                         color: Colors.black,
                       ),
                     ),
-                    const Text(
-                      "Tue, 18 May",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFCECECE),
-                          height: 1.5),
+                    Text(
+                      DateFormat('dd-MM-yyyy').format(widget.data!.date!),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFCECECE), height: 1.5),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 230,
@@ -129,13 +100,15 @@ class _OrdedDetailsPageState extends State<OrderdetailsPage> {
                         color: Colors.black,
                       ),
                     ),
-                    const Text(
-                      "9AM - 12PM",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFCECECE),
-                          height: 1.5),
+                    Text(
+                      widget.data!.timeSlot == '1'
+                          ? "NOW"
+                          : widget.data!.timeSlot == '2'
+                              ? "9AM - 12PM"
+                              : widget.data!.timeSlot == '3'
+                                  ? "12PM - 3PM"
+                                  : "3PM - 6PM",
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFCECECE), height: 1.5),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 230,
@@ -156,11 +129,7 @@ class _OrdedDetailsPageState extends State<OrderdetailsPage> {
                     ),
                     const Text(
                       "Bldg No 176, St. No 40, Ministry St, Al Ghoubra",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFCECECE),
-                          height: 1.5),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFCECECE), height: 1.5),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 230,

@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1040944309643",
-    "project_id": "ogasdriverapp",
-    "storage_bucket": "ogasdriverapp.appspot.com"
+    "project_number": "712044319473",
+    "project_id": "ogas-driver-app",
+    "storage_bucket": "ogas-driver-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1040944309643:android:0ad829014a7e9e4cb57b8e",
+        "mobilesdk_app_id": "1:712044319473:android:f01a2a463f4db8dd9e8f50",
         "android_client_info": {
           "package_name": "com.example.ogas_driver_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1040944309643-elntg0argf1nko3ba6abated1h4lanp6.apps.googleusercontent.com",
+          "client_id": "712044319473-cvsffl8i9oe78spphlaveiqq7e3mjs9f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBKedsP11elEGjDLRq5rHA9MLf8ne-94X4"
+          "current_key": "AIzaSyBuArJSuY_DtQ53SWp249xih1wg4DEK_O8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1040944309643-elntg0argf1nko3ba6abated1h4lanp6.apps.googleusercontent.com",
+              "client_id": "712044319473-cvsffl8i9oe78spphlaveiqq7e3mjs9f.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

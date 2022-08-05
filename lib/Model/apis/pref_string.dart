@@ -12,12 +12,13 @@ class PrefString {
   static const String countryCode = "countryCode";
 
   static const String loggedIn = 'loggedIn';
-  
+
   static const String firstTimeUser = "isFirstTimeUser";
   static const String id = "id";
+  static const String status = "status";
 
   static const String token = "token";
-  
+
   static const String language = "English";
 
   static const String deviceToken = 'device_Token';
@@ -27,5 +28,4 @@ class PrefString {
   static const String address = 'address';
 
   static const String imageurl = 'image_url';
-
 }

@@ -6,6 +6,7 @@ import 'package:ogas_driver_app/Model/apiModel/requestModel/signup_request_model
 import 'package:ogas_driver_app/Model/apiModel/responseModel/signup_response_model.dart';
 import 'package:ogas_driver_app/Model/apis/api_response.dart';
 import 'package:ogas_driver_app/Model/apis/pref_string.dart';
+import 'package:ogas_driver_app/auth/not_approved.dart';
 import 'package:ogas_driver_app/homescreen/home.dart';
 import 'package:ogas_driver_app/viewModel/signup_view_model.dart';
 import 'package:ogas_driver_app/widgets/colors.dart';
@@ -32,6 +33,7 @@ class _HomeState extends State<NamePage> {
   String? ppho;
   String? nam;
   String? email;
+  String? countryCode;
   String? licenseNumber;
   String? vehicleNumber;
   getpphon() async {
@@ -39,6 +41,7 @@ class _HomeState extends State<NamePage> {
     ppho = pref.getString(PrefString.phoneNumber);
     nam = pref.getString(PrefString.name);
     email = pref.getString(PrefString.email);
+    countryCode = pref.getString(PrefString.countryCode);
     licenseNumber = pref.getString(PrefString.licenseNumber);
     vehicleNumber = pref.getString(PrefString.vehicleNumber);
     setState(() {});
@@ -48,6 +51,7 @@ class _HomeState extends State<NamePage> {
     print(email);
     print(licenseNumber);
     print(vehicleNumber);
+    print(countryCode);
     print("+++++++++================+++++++++");
   }
 
@@ -74,10 +78,8 @@ class _HomeState extends State<NamePage> {
           SharedPreferences pref = await SharedPreferences.getInstance();
           pref.setString(PrefString.name, fullNameController.text);
           pref.setString(PrefString.email, emailController.text);
-          pref.setString(
-              PrefString.licenseNumber, licensenumberController.text);
-          pref.setString(
-              PrefString.vehicleNumber, vehiclenumberController.text);
+          pref.setString(PrefString.licenseNumber, licensenumberController.text);
+          pref.setString(PrefString.vehicleNumber, vehiclenumberController.text);
 
           signupReq.name = fullNameController.text;
           signupReq.mobile = ppho;
@@ -87,8 +89,7 @@ class _HomeState extends State<NamePage> {
           FocusScope.of(context).unfocus();
           await signupViewModel.signup(signupReq);
           if (signupViewModel.signupApiResponse.status == Status.COMPLETE) {
-            SignupResponseModel response =
-                signupViewModel.signupApiResponse.data;
+            SignupResponseModel response = signupViewModel.signupApiResponse.data;
             print('SIGNUP status ${response.success}');
 
             if (response.success == false) {
@@ -115,36 +116,25 @@ class _HomeState extends State<NamePage> {
                 ),
               ));
               hideLoadingDialog(context: context);
-              Get.offAll(HomePage());
+              response.data?.user?.status == 'null' || response.data?.user?.status == null ? Get.to(NotApproved()) : Get.offAll(HomePage());
 
               SharedPreferences pref = await SharedPreferences.getInstance();
               pref.setString(PrefString.loggedIn, 'loggedIn');
               pref.setString(PrefString.address, '');
+              pref.setString(PrefString.status, response.data!.user!.status.toString());
               pref.setString(PrefString.token, response.data!.token.toString());
-              pref.setString(
-                  PrefString.id, response.data!.user!.id!.toString());
+              pref.setString(PrefString.id, response.data!.user!.id!.toString());
 
               var id = pref.getInt('id');
               print('*********************$id');
-              pref.setString(
-                  PrefString.name, response.data!.user!.name.toString());
+              pref.setString(PrefString.name, response.data!.user!.name.toString());
 
-              pref.setString(PrefString.countryCode, '+91');
+              pref.setString(PrefString.countryCode, countryCode.toString());
               pref.setString(PrefString.devicetype, ' ');
               pref.setString(PrefString.deviceToken, ' ');
             } else {
               print('invalid');
             }
-          } else {
-            Get.showSnackbar(GetSnackBar(
-              backgroundColor: Color(0xffF2F3F2),
-              duration: Duration(seconds: 2),
-              snackPosition: SnackPosition.TOP,
-              messageText: Text(
-                'Server Error',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-            ));
           }
         },
         child: const Text(
@@ -217,9 +207,7 @@ class _HomeState extends State<NamePage> {
                           height: 120,
                           width: 120,
                           decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("asset/icons/full name.png"),
-                                fit: BoxFit.cover),
+                            image: DecorationImage(image: AssetImage("asset/icons/full name.png"), fit: BoxFit.cover),
                           ),
                         ),
                         CustomTextField(

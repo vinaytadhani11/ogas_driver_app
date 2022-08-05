@@ -6,11 +6,9 @@
 
 import 'dart:convert';
 
-LoginResponseModel loginResponseModelFromJson(String str) =>
-    LoginResponseModel.fromJson(json.decode(str));
+LoginResponseModel loginResponseModelFromJson(String str) => LoginResponseModel.fromJson(json.decode(str));
 
-String loginResponseModelToJson(LoginResponseModel data) =>
-    json.encode(data.toJson());
+String loginResponseModelToJson(LoginResponseModel data) => json.encode(data.toJson());
 
 class LoginResponseModel {
   LoginResponseModel({
@@ -23,8 +21,7 @@ class LoginResponseModel {
   final Data? data;
   final String? message;
 
-  factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
-      LoginResponseModel(
+  factory LoginResponseModel.fromJson(Map<String, dynamic> json) => LoginResponseModel(
         success: json["success"] == null ? true : json["success"],
         data: json["success"] == false ? Data() : Data.fromJson(json["data"]),
         message: json["message"] == null ? null : json["message"],
@@ -50,9 +47,7 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         token: json["token"] == null ? null : json["token"],
-        expiresAt: json["expires_at"] == null
-            ? null
-            : DateTime.parse(json["expires_at"]),
+        expiresAt: json["expires_at"] == null ? null : DateTime.parse(json["expires_at"]),
         user: json["user"] == null ? null : User.fromJson(json["user"]),
       );
 
@@ -72,6 +67,7 @@ class User {
     this.licenceNo,
     this.vehicleNo,
     this.deviceToken,
+    this.status,
     this.deviceType,
     this.createdAt,
     this.updatedAt,
@@ -83,6 +79,7 @@ class User {
   final String? email;
   final String? licenceNo;
   final String? vehicleNo;
+  final String? status;
   final dynamic deviceToken;
   final dynamic deviceType;
   final DateTime? createdAt;
@@ -95,14 +92,11 @@ class User {
         email: json["email"] == null ? null : json["email"],
         licenceNo: json["licence_no"] == null ? null : json["licence_no"],
         vehicleNo: json["vehicle_no"] == null ? null : json["vehicle_no"],
+        status: json["status"] == null ? null : json["status"],
         deviceToken: json["device_token"],
         deviceType: json["device_type"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -111,6 +105,7 @@ class User {
         "mobile": mobile == null ? null : mobile,
         "email": email == null ? null : email,
         "licence_no": licenceNo == null ? null : licenceNo,
+        "status": status == null ? null : status,
         "vehicle_no": vehicleNo == null ? null : vehicleNo,
         "device_token": deviceToken,
         "device_type": deviceType,
